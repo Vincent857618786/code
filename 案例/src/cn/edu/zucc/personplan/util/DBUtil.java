@@ -19,11 +19,4 @@ public class DBUtil {
     public static Connection getConnection() throws java.sql.SQLException {
         return java.sql.DriverManager.getConnection(jdbcUrl, dbUser, dbPwd);
     }
-	public static void main(String[] args){
-    	try {
-			DBUtil.getConnection();
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
-		}
-	}
 }

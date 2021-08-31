@@ -68,7 +68,7 @@ public class FrmMain extends JFrame implements ActionListener {
 	private BeanPlan curPlan=null;
 	List<BeanPlan> allPlan=null;
 	List<BeanStep> planSteps=null;
-	private void reloadPlanTable(){//这是测试数据，需要用实际数替换
+	private void reloadPlanTable(){
 		try {
 			allPlan=PersonPlanUtil.planManager.loadAll();
 		} catch (BaseException e) {

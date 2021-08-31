@@ -58,6 +58,7 @@ public class FrmAddPlan extends JDialog implements ActionListener {
 			String name=this.edtName.getText();
 			try {
 				PersonPlanUtil.planManager.addPlan(name);
+				PersonPlanUtil.planManager.loadAll();
 				this.setVisible(false);
 			} catch (BaseException e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "´íÎó",JOptionPane.ERROR_MESSAGE);

@@ -44,7 +44,7 @@ public class FrmModifyPwd extends JDialog implements ActionListener {
 		workPane.add(labelPwd2);
 		workPane.add(edtPwd2);
 		this.getContentPane().add(workPane, BorderLayout.CENTER);
-		this.setSize(300, 180);
+		this.setSize(300, 240);
 		this.btnCancel.addActionListener(this);
 		this.btnOk.addActionListener(this);
 	}
@@ -54,11 +54,13 @@ public class FrmModifyPwd extends JDialog implements ActionListener {
 			this.setVisible(false);
 		else if(e.getSource()==this.btnOk){
 			try {
+				System.out.println(edtPwdOld.getPassword());
+				System.out.println(edtPwd.getPassword());
+				System.out.println(edtPwd2.getPassword());
 				PersonPlanUtil.userManager.changePwd(BeanUser.currentLoginUser,new String(edtPwdOld.getPassword()),new String(edtPwd.getPassword()),new String(edtPwd2.getPassword()));
 				this.setVisible(false);
 			} catch (BaseException e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "´íÎó",JOptionPane.ERROR_MESSAGE);
-				return;
 			}
 		}
 			
