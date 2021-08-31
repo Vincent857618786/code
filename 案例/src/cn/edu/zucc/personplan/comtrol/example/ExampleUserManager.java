@@ -4,6 +4,8 @@ import cn.edu.zucc.personplan.itf.IUserManager;
 import cn.edu.zucc.personplan.model.BeanUser;
 import cn.edu.zucc.personplan.util.BaseException;
 
+import java.sql.Connection;
+
 public class ExampleUserManager implements IUserManager {
 
 	@Override
@@ -15,7 +17,9 @@ public class ExampleUserManager implements IUserManager {
 	
 	@Override
 	public BeanUser login(String userid, String pwd) throws BaseException {
-		// TODO Auto-generated method stub
+		Connection conn = null;
+		
+		throw new BaseException("√‹¬Î¥ÌŒÛ");
 		return null;
 	}
 
