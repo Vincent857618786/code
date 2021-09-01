@@ -12,7 +12,7 @@ import cn.edu.zucc.personplan.itf.IStepManager;
 import cn.edu.zucc.personplan.model.BeanPlan;
 import cn.edu.zucc.personplan.model.BeanStep;
 import cn.edu.zucc.personplan.util.BaseException;
-import cn.edu.zucc.personplan.util.DBUtil;
+import cn.edu.zucc.personplan.util.DBUtil2;
 
 public class ExampleStepManager implements IStepManager {
 
@@ -21,7 +21,7 @@ public class ExampleStepManager implements IStepManager {
                     String planfinishdate) throws BaseException {
         Connection conn = null;
         try {
-            conn= DBUtil.getConnection();
+            conn = DBUtil2.getInstance().getConnection();
             int max = 0;
             String sql = "SELECT MAX(step_order) FROM tbl_step WHERE plan_id = ?";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
@@ -60,7 +60,7 @@ public class ExampleStepManager implements IStepManager {
         List<BeanStep> result = new ArrayList<BeanStep>();
         Connection conn = null;
         try {
-            conn= DBUtil.getConnection();
+            conn = DBUtil2.getInstance().getConnection();
             String sql = "SELECT * FROM tbl_step WHERE plan_id = ? ORDER BY step_order";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             pst.setInt(1, plan.getPlan_id());
@@ -99,7 +99,7 @@ public class ExampleStepManager implements IStepManager {
         if (step == null) return;
         Connection conn = null;
         try {
-            conn= DBUtil.getConnection();
+            conn = DBUtil2.getInstance().getConnection();
             conn.setAutoCommit(false);
 
             String sql = "DELETE FROM tbl_step WHERE step_id = ?";
@@ -108,9 +108,9 @@ public class ExampleStepManager implements IStepManager {
             pst.execute();
 
             sql = "UPDATE tbl_step SET step_order = step_order-1 WHERE plan_id = ? AND step_order > ?";
-            pst =  conn.prepareStatement(sql);
-            pst.setInt(1,step.getPlan_id());
-            pst.setInt(2,step.getStep_order());
+            pst = conn.prepareStatement(sql);
+            pst.setInt(1, step.getPlan_id());
+            pst.setInt(2, step.getStep_order());
             pst.execute();
 
             conn.commit();
@@ -133,7 +133,7 @@ public class ExampleStepManager implements IStepManager {
         if (step == null) return;
         Connection conn = null;
         try {
-            conn= DBUtil.getConnection();
+            conn = DBUtil2.getInstance().getConnection();
             String sql = "UPDATE tbl_step SET real_begin_time = ? WHERE step_id = ?";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             pst.setDate(1, new Date(new java.util.Date().getTime()));
@@ -158,7 +158,7 @@ public class ExampleStepManager implements IStepManager {
         if (step == null) return;
         Connection conn = null;
         try {
-            conn= DBUtil.getConnection();
+            conn = DBUtil2.getInstance().getConnection();
             String sql = "UPDATE tbl_step SET real_end_time = ? WHERE step_id = ?";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             pst.setDate(1, new Date(new java.util.Date().getTime()));
@@ -186,7 +186,7 @@ public class ExampleStepManager implements IStepManager {
         }
         Connection conn = null;
         try {
-            conn= DBUtil.getConnection();
+            conn = DBUtil2.getInstance().getConnection();
 
             String sql = "UPDATE tbl_step SET step_order = step_order+1 WHERE plan_id = ? AND step_order = ?-1;\n";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
@@ -220,7 +220,7 @@ public class ExampleStepManager implements IStepManager {
         Connection conn = null;
         try {
             int max = 0;
-            conn= DBUtil.getConnection();
+            conn = DBUtil2.getInstance().getConnection();
             String sql = "SELECT MAX(step_order) from tbl_step WHERE plan_id = ?";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             pst.setInt(1, step.getPlan_id());

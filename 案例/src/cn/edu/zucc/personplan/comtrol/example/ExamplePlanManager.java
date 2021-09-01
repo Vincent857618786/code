@@ -10,7 +10,7 @@ import cn.edu.zucc.personplan.itf.IPlanManager;
 import cn.edu.zucc.personplan.model.BeanPlan;
 import cn.edu.zucc.personplan.model.BeanUser;
 import cn.edu.zucc.personplan.util.BaseException;
-import cn.edu.zucc.personplan.util.DBUtil;
+import cn.edu.zucc.personplan.util.DBUtil2;
 
 public class ExamplePlanManager implements IPlanManager {
 
@@ -18,7 +18,7 @@ public class ExamplePlanManager implements IPlanManager {
     public BeanPlan addPlan(String name) throws BaseException {
         Connection conn = null;
         try {
-            conn= DBUtil.getConnection();
+            conn = DBUtil2.getInstance().getConnection();
             int max = 0;
             String sql = "SELECT MAX(plan_order) FROM tbl_plan WHERE user_id = ?";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
@@ -56,7 +56,7 @@ public class ExamplePlanManager implements IPlanManager {
         List<BeanPlan> result = new ArrayList<BeanPlan>();
         Connection conn = null;
         try {
-            conn= DBUtil.getConnection();
+            conn = DBUtil2.getInstance().getConnection();
             String sql = "SELECT * FROM tbl_plan";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             java.sql.ResultSet rs = pst.executeQuery();
@@ -92,7 +92,7 @@ public class ExamplePlanManager implements IPlanManager {
     public void deletePlan(BeanPlan plan) throws BaseException {
         Connection conn = null;
         try {
-            conn= DBUtil.getConnection();
+            conn = DBUtil2.getInstance().getConnection();
             String sql = "DELETE FROM tbl_plan WHERE plan_id = ?";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             System.out.println(plan.getPlan_id());

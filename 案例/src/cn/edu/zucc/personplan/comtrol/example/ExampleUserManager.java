@@ -3,7 +3,7 @@ package cn.edu.zucc.personplan.comtrol.example;
 import cn.edu.zucc.personplan.itf.IUserManager;
 import cn.edu.zucc.personplan.model.BeanUser;
 import cn.edu.zucc.personplan.util.BaseException;
-import cn.edu.zucc.personplan.util.DBUtil;
+import cn.edu.zucc.personplan.util.DBUtil2;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,7 +22,7 @@ public class ExampleUserManager implements IUserManager {
         Connection conn = null;
         BeanUser beanUser = new BeanUser();
         try {
-            conn= DBUtil.getConnection();
+            conn = DBUtil2.getInstance().getConnection();
             String sql = "SELECT user_id FROM tbl_user WHERE user_id = ?";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, userid);
@@ -66,7 +66,7 @@ public class ExampleUserManager implements IUserManager {
         Connection conn = null;
         BeanUser beanUser = new BeanUser();
         try {
-            conn= DBUtil.getConnection();
+            conn = DBUtil2.getInstance().getConnection();
             String sql = "SELECT register_time FROM tbl_user WHERE user_id = ? AND user_pwd = ?";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, userid);
@@ -109,7 +109,7 @@ public class ExampleUserManager implements IUserManager {
         if (!newPwd.equals(newPwd2)) throw new BaseException("两次密码不同");
         Connection conn = null;
         try {
-            conn= DBUtil.getConnection();
+            conn = DBUtil2.getInstance().getConnection();
             String sql = "UPDATE tbl_user SET user_pwd = ? WHERE user_id = ?;";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, newPwd);
