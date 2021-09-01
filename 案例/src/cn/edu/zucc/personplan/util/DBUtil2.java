@@ -18,9 +18,9 @@ public class DBUtil2 {
         try {
             dataSource = new ComboPooledDataSource();
             dataSource.setUser("root");
-            dataSource.setPassword("123456");
+            dataSource.setPassword("vincentDockerMysql2021");
             dataSource
-                    .setJdbcUrl("jdbc:mysql://localhost:3306/booklib?useUnicode=true&characterEncoding=utf8&useSSL=false");
+                    .setJdbcUrl("jdbc:mysql://121.196.167.21:3306/booklib?useUnicode=true&characterEncoding=utf8&useSSL=false");
             dataSource.setDriverClass("com.mysql.jdbc.Driver");
             dataSource.setInitialPoolSize(2);
             dataSource.setMinPoolSize(1);
@@ -40,7 +40,7 @@ public class DBUtil2 {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
-            throw new RuntimeException("鏃犳硶浠庢暟鎹簮鑾峰彇杩炴帴 ", e);
+            throw new RuntimeException("无法从数据源获取连接 ", e);
         }
     }
 

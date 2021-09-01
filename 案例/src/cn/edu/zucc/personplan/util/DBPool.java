@@ -40,7 +40,7 @@ public class DBPool {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
-            throw new RuntimeException("鏃犳硶浠庢暟鎹簮鑾峰彇杩炴帴 ", e);
+            throw new RuntimeException("无法从数据源获取连接 ", e);
         }
     }
 

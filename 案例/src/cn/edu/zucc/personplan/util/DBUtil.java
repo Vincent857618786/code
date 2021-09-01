@@ -3,9 +3,9 @@ package cn.edu.zucc.personplan.util;
 import java.sql.Connection;
 
 public class DBUtil {
-    private static final String jdbcUrl = "jdbc:mysql://localhost:3306/booklib?useUnicode=true&characterEncoding=utf8&useSSL=false";
+    private static final String jdbcUrl = "jdbc:mysql://121.196.167.21:3306/booklib?useUnicode=true&characterEncoding=utf8&useSSL=false";
     private static final String dbUser = "root";
-    private static final String dbPwd = "123456";
+    private static final String dbPwd = "vincentDockerMysql2021";
 
     static {
         try {
