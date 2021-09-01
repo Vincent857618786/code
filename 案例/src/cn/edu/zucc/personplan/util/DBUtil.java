@@ -1,7 +1,6 @@
 package cn.edu.zucc.personplan.util;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 public class DBUtil {
     private static final String jdbcUrl = "jdbc:mysql://localhost:3306/booklib?useUnicode=true&characterEncoding=utf8&useSSL=false";

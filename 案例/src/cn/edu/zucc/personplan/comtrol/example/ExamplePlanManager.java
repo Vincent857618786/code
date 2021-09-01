@@ -18,7 +18,7 @@ public class ExamplePlanManager implements IPlanManager {
     public BeanPlan addPlan(String name) throws BaseException {
         Connection conn = null;
         try {
-            conn = DBUtil.getConnection();
+            conn= DBUtil.getConnection();
             int max = 0;
             String sql = "SELECT MAX(plan_order) FROM tbl_plan WHERE user_id = ?";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
@@ -56,12 +56,12 @@ public class ExamplePlanManager implements IPlanManager {
         List<BeanPlan> result = new ArrayList<BeanPlan>();
         Connection conn = null;
         try {
-            conn = DBUtil.getConnection();
+            conn= DBUtil.getConnection();
             String sql = "SELECT * FROM tbl_plan";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             java.sql.ResultSet rs = pst.executeQuery();
-            BeanPlan beanPlan = new BeanPlan();
             while (rs.next()) {
+                BeanPlan beanPlan = new BeanPlan();
                 beanPlan.setPlan_id(rs.getInt(1));
                 beanPlan.setUser_id(rs.getString(2));
                 beanPlan.setPlan_order(rs.getInt(3));
@@ -92,7 +92,7 @@ public class ExamplePlanManager implements IPlanManager {
     public void deletePlan(BeanPlan plan) throws BaseException {
         Connection conn = null;
         try {
-            conn = DBUtil.getConnection();
+            conn= DBUtil.getConnection();
             String sql = "DELETE FROM tbl_plan WHERE plan_id = ?";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             System.out.println(plan.getPlan_id());
