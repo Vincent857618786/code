@@ -22,18 +22,18 @@ public class ExamplePlanManager implements IPlanManager {
             int max = 0;
             String sql = "SELECT MAX(plan_order) FROM tbl_plan WHERE user_id = ?";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1,BeanUser.currentLoginUser.getUser());
+            pst.setString(1, BeanUser.currentLoginUser.getUser());
             java.sql.ResultSet rs = pst.executeQuery();
-            if (rs.next()){
+            if (rs.next()) {
                 max = rs.getInt(1);
             }
             sql = "INSERT INTO tbl_plan (user_id,plan_order,plan_name,create_time,step_count,start_step_count,finished_step_count) VALUES (?,?,?,?,0,0,0)";
             pst = conn.prepareStatement(sql);
-            pst.setString(1,BeanUser.currentLoginUser.getUser());
-            pst.setInt(2,max+1);
-            pst.setString(3,name);
+            pst.setString(1, BeanUser.currentLoginUser.getUser());
+            pst.setInt(2, max + 1);
+            pst.setString(3, name);
             Timestamp time = new Timestamp(new java.util.Date().getTime());
-            pst.setTimestamp(4,time);
+            pst.setTimestamp(4, time);
 
             pst.execute();
             pst.close();
@@ -92,12 +92,22 @@ public class ExamplePlanManager implements IPlanManager {
     public void deletePlan(BeanPlan plan) throws BaseException {
         Connection conn = null;
         try {
+            if (plan.getStep_count() > 0){
+                throw new BaseException("计划含有步骤，无法删除");
+            }
             conn = DBUtil2.getInstance().getConnection();
+            conn.setAutoCommit(false);
             String sql = "DELETE FROM tbl_plan WHERE plan_id = ?";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-            System.out.println(plan.getPlan_id());
-            pst.setInt(1,plan.getPlan_id());
+            pst.setInt(1, plan.getPlan_id());
             pst.execute();
+
+            sql = "UPDATE tbl_plan SET plan_order = plan_order - 1 WHERE plan_order > ?";
+            pst = conn.prepareStatement(sql);
+            pst.setInt(1, plan.getPlan_order());
+            pst.execute();
+
+            conn.commit();
             pst.close();
         } catch (SQLException e) {
             e.printStackTrace();

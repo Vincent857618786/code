@@ -31,6 +31,8 @@ public class ExampleStepManager implements IStepManager {
                 max = rs.getInt(1);
             }
 
+            conn.setAutoCommit(false);
+
             sql = "INSERT INTO tbl_step (plan_id,step_order,step_name,plan_begin_time,plan_end_time) VALUES (?,?,?,?,?)";
             pst = conn.prepareStatement(sql);
             pst.setInt(1, plan.getPlan_id());
@@ -41,6 +43,13 @@ public class ExampleStepManager implements IStepManager {
             pst.setDate(5, Date.valueOf(planfinishdate));
 
             pst.execute();
+
+            sql = "UPDATE tbl_plan SET step_count = step_count + 1 WHERE plan_id = ?";
+            pst = conn.prepareStatement(sql);
+            pst.setInt(1,plan.getPlan_id());
+            pst.execute();
+
+            conn.commit();
             pst.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,6 +122,11 @@ public class ExampleStepManager implements IStepManager {
             pst.setInt(2, step.getStep_order());
             pst.execute();
 
+            sql = "UPDATE tbl_plan SET step_count = step_count - 1 WHERE plan_id = ?";
+            pst = conn.prepareStatement(sql);
+            pst.setInt(1, step.getPlan_id());
+            pst.execute();
+
             conn.commit();
             pst.close();
         } catch (SQLException e) {
@@ -134,11 +148,20 @@ public class ExampleStepManager implements IStepManager {
         Connection conn = null;
         try {
             conn = DBUtil2.getInstance().getConnection();
+            conn.setAutoCommit(false);
+
             String sql = "UPDATE tbl_step SET real_begin_time = ? WHERE step_id = ?";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             pst.setDate(1, new Date(new java.util.Date().getTime()));
             pst.setInt(2, step.getStep_id());
             pst.execute();
+
+            sql = "UPDATE tbl_plan SET start_step_count = start_step_count + 1 WHERE plan_id = ?";
+            pst = conn.prepareStatement(sql);
+            pst.setInt(1, step.getPlan_id());
+            pst.execute();
+
+            conn.commit();
             pst.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -159,11 +182,25 @@ public class ExampleStepManager implements IStepManager {
         Connection conn = null;
         try {
             conn = DBUtil2.getInstance().getConnection();
+            conn.setAutoCommit(false);
+
             String sql = "UPDATE tbl_step SET real_end_time = ? WHERE step_id = ?";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             pst.setDate(1, new Date(new java.util.Date().getTime()));
             pst.setInt(2, step.getStep_id());
             pst.execute();
+
+            sql = "UPDATE tbl_plan SET finished_step_count = finished_step_count + 1 WHERE plan_id = ?";
+            pst = conn.prepareStatement(sql);
+            pst.setInt(1, step.getPlan_id());
+            pst.execute();
+
+            sql = "UPDATE tbl_plan SET start_step_count = start_step_count - 1 WHERE plan_id = ?";
+            pst = conn.prepareStatement(sql);
+            pst.setInt(1, step.getPlan_id());
+            pst.execute();
+
+            conn.commit();
             pst.close();
         } catch (SQLException e) {
             e.printStackTrace();
