@@ -57,8 +57,9 @@ public class ExamplePlanManager implements IPlanManager {
         Connection conn = null;
         try {
             conn = DBUtil2.getInstance().getConnection();
-            String sql = "SELECT * FROM tbl_plan";
+            String sql = "SELECT * FROM tbl_plan where user_id = ? order by plan_order";
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1,BeanUser.currentLoginUser.getUser());
             java.sql.ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 BeanPlan beanPlan = new BeanPlan();

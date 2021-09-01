@@ -174,6 +174,7 @@ public class FrmMain extends JFrame implements ActionListener {
         if (e.getSource() == this.menuItem_AddPlan) {
             FrmAddPlan dlg = new FrmAddPlan(this, "ÃÌº”º∆ªÆ", true);
             dlg.setVisible(true);
+            this.reloadPlanTable();
         } else if (e.getSource() == this.menuItem_DeletePlan) {
             if (this.curPlan == null) {
                 JOptionPane.showMessageDialog(null, "«Î—°‘Òº∆ªÆ", "¥ÌŒÛ", JOptionPane.ERROR_MESSAGE);
@@ -189,6 +190,7 @@ public class FrmMain extends JFrame implements ActionListener {
             FrmAddStep dlg = new FrmAddStep(this, "ÃÌº”≤Ω÷Ë", true);
             dlg.plan = curPlan;
             dlg.setVisible(true);
+            reloadPlanStepTabel(FrmMain.this.dataTablePlan.getSelectedRow());
         } else if (e.getSource() == this.menuItem_DeleteStep) {
             int i = FrmMain.this.dataTableStep.getSelectedRow();
             if (i < 0) {
@@ -197,6 +199,7 @@ public class FrmMain extends JFrame implements ActionListener {
             }
             try {
                 PersonPlanUtil.stepManager.deleteStep(this.planSteps.get(i));
+                reloadPlanStepTabel(FrmMain.this.dataTablePlan.getSelectedRow());
             } catch (BaseException e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage(), "¥ÌŒÛ", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -209,6 +212,8 @@ public class FrmMain extends JFrame implements ActionListener {
             }
             try {
                 PersonPlanUtil.stepManager.startStep(this.planSteps.get(i));
+                reloadPlanStepTabel(FrmMain.this.dataTablePlan.getSelectedRow());
+
             } catch (BaseException e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage(), "¥ÌŒÛ", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -221,6 +226,8 @@ public class FrmMain extends JFrame implements ActionListener {
             }
             try {
                 PersonPlanUtil.stepManager.finishStep(this.planSteps.get(i));
+                reloadPlanStepTabel(FrmMain.this.dataTablePlan.getSelectedRow());
+
             } catch (BaseException e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage(), "¥ÌŒÛ", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -233,6 +240,8 @@ public class FrmMain extends JFrame implements ActionListener {
             }
             try {
                 PersonPlanUtil.stepManager.moveUp(this.planSteps.get(i));
+                reloadPlanStepTabel(FrmMain.this.dataTablePlan.getSelectedRow());
+
             } catch (BaseException e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage(), "¥ÌŒÛ", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -245,6 +254,8 @@ public class FrmMain extends JFrame implements ActionListener {
             }
             try {
                 PersonPlanUtil.stepManager.moveDown(this.planSteps.get(i));
+                reloadPlanStepTabel(FrmMain.this.dataTablePlan.getSelectedRow());
+
             } catch (BaseException e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage(), "¥ÌŒÛ", JOptionPane.ERROR_MESSAGE);
                 return;
