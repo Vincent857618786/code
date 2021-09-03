@@ -1,0 +1,61 @@
+package vinf.top.fresh.util;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+import java.beans.PropertyVetoException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+public class DBUtil2 {
+    private static DBUtil2 dbPool;
+    private ComboPooledDataSource dataSource;
+
+    static {
+        dbPool = new DBUtil2();
+    }
+
+    public DBUtil2() {
+        try {
+            dataSource = new ComboPooledDataSource();
+            dataSource.setUser("root");
+            dataSource.setPassword("vincentDockerMysql2021");
+            dataSource
+                    .setJdbcUrl("jdbc:mysql://121.196.167.21:3306/booklib?useUnicode=true&characterEncoding=utf8&useSSL=false");
+            dataSource.setDriverClass("com.mysql.jdbc.Driver");
+            dataSource.setInitialPoolSize(2);
+            dataSource.setMinPoolSize(1);
+            dataSource.setMaxPoolSize(10);
+            dataSource.setMaxStatements(50);
+            dataSource.setMaxIdleTime(60);
+        } catch (PropertyVetoException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static DBUtil2 getInstance() {
+        return dbPool;
+    }
+
+    public final Connection getConnection() {
+        try {
+            return dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException("无法从数据源获取连接 ", e);
+        }
+    }
+
+    public static void main(String[] args) throws SQLException {
+        Connection con = null;
+        try {
+            con = DBUtil2.getInstance().getConnection();
+//            java.sql.ResultSet rs = con.createStatement().executeQuery("select readerTypeName from BeanReaderType");
+//            while (rs.next())
+//                System.out.println(rs.getString(1));
+        } catch (Exception e) {
+//            System.out.println(e);
+        } finally {
+            if (con != null)
+                con.close();
+        }
+    }
+}
